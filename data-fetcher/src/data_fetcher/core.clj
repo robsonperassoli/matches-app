@@ -26,7 +26,7 @@
       (if (has-next-page? page-content)
           (do
             (println "get rows from " teams-url)
-            (get-team-rows base-url (str base-url (get-next-page-url page-content)) (concat rows (get-team-rows-in-page page-content))))
+            (recur base-url (str base-url (get-next-page-url page-content)) (concat rows (get-team-rows-in-page page-content))))
           (do
             (println "no more rows! well done")
             rows))))
