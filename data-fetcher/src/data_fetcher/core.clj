@@ -7,6 +7,7 @@
 
 (def base-url "http://www.fifaindex.com")
 (def teams-url (str base-url "/pt-br/teams/"))
+(def filename "teams.json")
 
 (defn fetch-url [url]
   (html-resource (java.net.URL. url)))
@@ -39,11 +40,11 @@
 (defn get-teams [base-url teams-url]
   (map parse-team (get-team-rows base-url teams-url [])))
 
-(defn save-teams-in-json-file [teams]
-  (spit "teams.json" (json/write-str teams) :append false))
+(defn save-teams-in-json-file [teams filename]
+  (spit filename (json/write-str teams) :append false))
 
 (defn -main
   [& args]
   (println "Fetching teams from " base-url)
-  (save-teams-in-json-file (get-teams base-url teams-url))
-  (println "Teams saved into teams.json"))
+  (save-teams-in-json-file (get-teams base-url teams-url) filename)
+  (println "Teams saved into " filename))
