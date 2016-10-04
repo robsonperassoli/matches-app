@@ -7,7 +7,7 @@ Manage you wins/losses against your buddies on soccer games
 [{
   "name": "Arsenal",
   "league": "Premiere league",
-  "image": "<base64 encoded binary>" 
+  "image": "http://www.fifaindex.com/images/FIFA16/premiere/arsenal.png" 
 }]
 ```
 
