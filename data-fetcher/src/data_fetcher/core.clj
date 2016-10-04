@@ -37,8 +37,12 @@
                (second (select row #{[:td :a :> text-node]}))
                (:src (:attrs (first (select row #{[:td :a :img]}))))))
 
+(defn full-path-images [teams]
+  (map (fn [team] (update-in team [:image] #(str base-url %))) teams))
+
 (defn get-teams [base-url teams-url]
-  (map parse-team (get-team-rows base-url teams-url [])))
+  (let [teams (map parse-team (get-team-rows base-url teams-url []))]
+       (full-path-images teams)))
 
 (defn save-teams-in-json-file [teams filename]
   (spit filename (json/write-str teams) :append false))
