@@ -20,8 +20,20 @@
   (GET "/players" []
     (json-response (players/list)))
 
+  (POST "/players" [player]
+    (json-response (players/post player)))
+
+  (PUT "/players/:id" [id player]
+    (json-response (players/put id player)))
+
+  (DELETE "/players/:id" [id]
+    (json-response (players/delete id)))
+
   (GET "/match-results" []
-    (json-response (match-results/list))))
+    (json-response (match-results/list)))
+
+  (POST "/match-results" [result]
+    (json-response (match-results/post result))))
 
 (def app
    (-> handler wrap-json-params))

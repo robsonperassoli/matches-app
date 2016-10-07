@@ -1,4 +1,5 @@
-(ns api.teams)
+(ns api.teams
+  (:require [clj-json.core :as json]))
 
 (defn list []
-  [{:name "Chelsea FC" :league "Premiere League"} {:name "Arsenal" :league "Premiere League"}])
+  (json/parse-string (slurp "resources/teams.json")))

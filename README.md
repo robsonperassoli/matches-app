@@ -27,6 +27,7 @@ Manage you wins/losses against your buddies on soccer games
   "away_team": "<team_uid>",
   "away_team_goals": 2,
   "home_team_player": "<player_uid>"
+  "date_time": "2016-10-01 00:00:00"
 }]
 ```
 

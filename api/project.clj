@@ -7,7 +7,8 @@
                  [ring/ring-jetty-adapter "1.5.0"]
                  [ring-json-params "0.1.3"]
                  [compojure "1.5.0"]
-                 [clj-json "0.5.3"]]
+                 [clj-json "0.5.3"]
+                 [com.novemberain/monger "3.1.0"]]
   :main ^:skip-aot api.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
