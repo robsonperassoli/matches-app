@@ -1,6 +1,8 @@
 (ns data-fetcher.core
   (:use net.cgrand.enlive-html)
-  (:require [clojure.data.json :as json])
+  (:require [clojure.data.json :as json]
+            [org.httpkit.client :as http]
+            [base64-clj.core :as base64])
   (:gen-class))
 
 (defstruct team :name :league :image)
@@ -37,12 +39,19 @@
                (second (select row #{[:td :a :> text-node]}))
                (:src (:attrs (first (select row #{[:td :a :img]}))))))
 
-(defn full-path-images [teams]
-  (map (fn [team] (update-in team [:image] #(str base-url %))) teams))
+(defn download-image [image-url]
+  (let [headers {"Host" "www.fifaindex.com" "Referer" "http://www.fifaindex.com/pt-br/teams/"}
+        resp (http/get image-url {:as :byte-array :headers headers})]
+          (println "Finished download of " image-url)
+          (-> (:body @resp) base64/encode-bytes String.)))
+
+(defn fill-image [teams base-url]
+  (map (fn [team]
+    (merge team {:image (download-image (str base-url (:image team)))})) teams))
 
 (defn get-teams [base-url teams-url]
-  (let [teams (map parse-team (get-team-rows base-url teams-url []))]
-       (full-path-images teams)))
+  (-> (map parse-team (get-team-rows base-url teams-url []))
+      (fill-image base-url)))
 
 (defn save-teams-in-json-file [teams filename]
   (spit filename (json/write-str teams) :append false))
